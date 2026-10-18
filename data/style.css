@@ -1,0 +1,1230 @@
+
+/* =====================================================
+   RPG RFID — CRÔNICAS DO REINO
+   Arquivo: style.css
+   ===================================================== */
+
+/* ---------- VARIÁVEIS ---------- */
+
+:root {
+    --fundo: #0b101b;
+    --fundo-secundario: #111928;
+    --painel: #172133;
+    --painel-claro: #1d2a40;
+
+    --dourado: #d6b675;
+    --dourado-claro: #f1dba8;
+    --dourado-escuro: #907348;
+
+    --texto: #f1ebdf;
+    --texto-secundario: #a5adbd;
+    --texto-suave: #758197;
+
+    --borda: rgba(214, 182, 117, 0.18);
+
+    --vida: #48ad7a;
+    --vida-inimigo: #bd535b;
+    --alerta: #d89b4f;
+
+    --sombra: 0 12px 35px rgba(0, 0, 0, 0.28);
+
+    --raio: 14px;
+    --transicao: 250ms ease;
+}
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            ellipse at 15% 0%,
+            rgba(51, 66, 105, 0.30),
+            transparent 45%
+        ),
+        linear-gradient(
+            160deg,
+            #0e1625,
+            var(--fundo) 65%
+        );
+
+    color: var(--texto);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    line-height: 1.7;
+}
+
+::selection {
+    background: var(--dourado);
+    color: var(--fundo);
+}
+
+/* ---------- CABEÇALHO ---------- */
+.cabecalho {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 26px 36px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    border-bottom: 1px solid var(--borda);
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.marca-simbolo {
+    color: var(--dourado);
+    font-size: 42px;
+    line-height: 1;
+
+    text-shadow:
+        0 0 25px rgba(214, 182, 117, 0.35);
+}
+
+.marca h1 {
+    color: var(--dourado-claro);
+    font-size: 1.55rem;
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+.marca p {
+    margin-top: 3px;
+    color: var(--texto-secundario);
+    font-size: 0.85rem;
+}
+
+.conexao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 9px 15px;
+
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--borda);
+    border-radius: 30px;
+
+    color: var(--texto-secundario);
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    white-space: nowrap;
+}
+
+.indicador-conexao {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+
+    background: var(--alerta);
+    border-radius: 50%;
+
+    box-shadow: 0 0 10px rgba(216, 155, 79, 0.35);
+}
+
+.conexao.conectado .indicador-conexao {
+    background: var(--vida);
+    box-shadow: 0 0 12px rgba(72, 173, 122, 0.5);
+}
+
+.conexao.desconectado .indicador-conexao {
+    background: var(--vida-inimigo);
+    box-shadow: 0 0 12px rgba(189, 83, 91, 0.5);
+}
+
+/* ---------- LAYOUT PRINCIPAL ---------- */
+
+.layout-jogo {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 36px;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(290px, 1fr);
+    gap: 28px;
+
+    align-items: start;
+}
+
+/* ---------- PAINEL NARRATIVO ---------- */
+
+.painel-narrativa {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 680px;
+
+    padding: 48px;
+
+    background:
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(214, 182, 117, 0.075),
+            transparent 55%
+        ),
+        linear-gradient(
+            180deg,
+            #192438,
+            #121b2b
+        );
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+
+    box-shadow: var(--sombra);
+}
+
+.painel-narrativa::before {
+    content: "";
+
+    position: absolute;
+    inset: 12px;
+
+    border: 1px solid rgba(214, 182, 117, 0.10);
+    border-radius: 8px;
+
+    pointer-events: none;
+}
+
+.painel-narrativa::after {
+    content: "✦";
+
+    position: absolute;
+    top: 17px;
+    right: 25px;
+
+    color: rgba(214, 182, 117, 0.22);
+    font-size: 28px;
+
+    pointer-events: none;
+}
+
+/* ---------- TÍTULO DO CAPÍTULO ---------- */
+
+.cabecalho-capitulo {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.etiqueta {
+    display: inline-block;
+
+    color: var(--dourado-escuro);
+
+    font-family: Arial, sans-serif;
+    font-size: 0.66rem;
+    font-weight: bold;
+
+    letter-spacing: 4px;
+}
+
+#numero-capitulo {
+    margin-top: 18px;
+
+    color: var(--dourado);
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+#titulo-capitulo {
+    margin-top: 8px;
+
+    color: var(--dourado-claro);
+
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: normal;
+    line-height: 1.2;
+
+    text-shadow: 0 3px 20px rgba(0, 0, 0, 0.2);
+}
+
+#subtitulo-capitulo {
+    margin-top: 14px;
+
+    color: var(--texto-secundario);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+.cabecalho-capitulo::after {
+    content: "✦ ─────── ✦ ─────── ✦";
+
+    display: block;
+    margin-top: 28px;
+
+    color: var(--dourado-escuro);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+}
+
+/* ---------- TEXTO DA HISTÓRIA ---------- */
+
+.historia {
+    flex: 1;
+}
+
+.texto-narrativa {
+    max-width: 690px;
+    margin: 0 auto;
+
+    color: var(--texto);
+    font-size: 1.12rem;
+
+    line-height: 2;
+    text-align: justify;
+    overflow-wrap: anywhere;
+}
+
+.texto-narrativa p {
+    margin-bottom: 23px;
+}
+
+.texto-narrativa p:first-child::first-letter {
+    float: left;
+
+    padding: 4px 10px 0 0;
+
+    color: var(--dourado);
+    font-size: 3.5rem;
+    line-height: 0.95;
+}
+
+.texto-narrativa.atualizando {
+    animation: aparecerTexto 500ms ease both;
+}
+
+@keyframes aparecerTexto {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- ÚLTIMO ACONTECIMENTO ---------- */
+
+.evento-atual {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    margin-top: 30px;
+    padding: 20px 22px;
+
+    background: rgba(214, 182, 117, 0.065);
+
+    border: 1px solid rgba(214, 182, 117, 0.17);
+    border-left: 3px solid var(--dourado);
+
+    border-radius: 8px;
+}
+
+.evento-icone {
+    color: var(--dourado);
+    font-size: 1.7rem;
+    line-height: 1.3;
+}
+
+.evento-atual h3 {
+    margin-bottom: 5px;
+
+    color: var(--dourado);
+    font-family: Arial, sans-serif;
+    font-size: 0.73rem;
+    font-weight: normal;
+
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+}
+
+#mensagem-evento {
+    color: var(--texto);
+    font-size: 0.98rem;
+}
+
+/* ---------- RODAPÉ DA NARRATIVA ---------- */
+
+.rodape-narrativa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 35px;
+    padding-top: 22px;
+
+    border-top: 1px solid var(--borda);
+
+    color: var(--texto-secundario);
+    font-style: italic;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.rodape-narrativa span {
+    color: var(--dourado);
+    font-size: 1.4rem;
+}
+
+/* ---------- PAINEL LATERAL ---------- */
+
+.painel-rpg {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.cartao {
+    padding: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--painel),
+            var(--fundo-secundario)
+        );
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+
+    transition:
+        border-color var(--transicao),
+        box-shadow var(--transicao),
+        transform var(--transicao);
+}
+
+.titulo-cartao {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    margin-bottom: 14px;
+}
+
+.titulo-cartao > span {
+    color: var(--dourado);
+    font-size: 1.45rem;
+}
+
+.titulo-cartao h2 {
+    color: var(--dourado-claro);
+    font-size: 1.1rem;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
+
+/* ---------- PERSONAGENS ---------- */
+
+.classe-personagem {
+    margin-bottom: 22px;
+
+    color: var(--texto-secundario);
+    font-size: 0.83rem;
+    font-style: italic;
+}
+
+.personagem.selecionado {
+    border-color: rgba(214, 182, 117, 0.8);
+
+    box-shadow:
+        0 0 0 1px rgba(214, 182, 117, 0.15),
+        0 0 25px rgba(214, 182, 117, 0.10);
+}
+
+.personagem.selecionado .titulo-cartao h2 {
+    color: #ffe7ad;
+}
+
+.personagem.selecionado::after {
+    content: "PERSONAGEM ATIVO";
+
+    display: block;
+    margin-top: 17px;
+
+    color: var(--dourado);
+
+    font-family: Arial, sans-serif;
+    font-size: 0.66rem;
+    letter-spacing: 1.8px;
+    text-align: right;
+}
+
+/* ---------- VIDA ---------- */
+
+.informacao-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+}
+
+.informacao-status span {
+    color: var(--texto-secundario);
+}
+
+.informacao-status strong {
+    color: var(--texto);
+    font-weight: 600;
+}
+
+.barra-vida {
+    height: 9px;
+    overflow: hidden;
+
+    background: #080e18;
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: 50px;
+}
+
+.preenchimento-vida {
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #287f56,
+            var(--vida)
+        );
+
+    border-radius: inherit;
+
+    transition: width 500ms ease;
+}
+
+.barra-inimigo .preenchimento-vida {
+    background:
+        linear-gradient(
+            90deg,
+            #812e3c,
+            var(--vida-inimigo)
+        );
+}
+
+/* ---------- INIMIGO ---------- */
+
+.cartao-inimigo {
+    border-color: rgba(189, 83, 91, 0.25);
+}
+
+.cartao-inimigo .titulo-cartao > span {
+    color: var(--vida-inimigo);
+}
+
+.nome-inimigo {
+    margin-bottom: 20px;
+
+    color: var(--texto);
+    font-size: 0.95rem;
+}
+
+.status-inimigo {
+    margin-top: 14px;
+
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.cartao-inimigo.derrotado {
+    opacity: 0.72;
+    border-color: rgba(72, 173, 122, 0.45);
+}
+
+.cartao-inimigo.derrotado .status-inimigo {
+    color: var(--vida);
+}
+
+/* ---------- RECURSOS ---------- */
+
+.recurso-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    padding: 12px 0;
+
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+}
+
+.recurso-item + .recurso-item {
+    border-top: 1px solid var(--borda);
+}
+
+.recurso-item span {
+    color: var(--texto-secundario);
+}
+
+.recurso-item strong {
+    color: var(--dourado-claro);
+    font-weight: 600;
+    text-align: right;
+}
+
+/* ---------- LEITOR RFID ---------- */
+
+.leitor-rfid {
+    background:
+        linear-gradient(
+            145deg,
+            #17283a,
+            #111b2a
+        );
+}
+
+#status-leitor {
+    color: var(--texto-secundario);
+    font-size: 0.87rem;
+}
+
+.rotulo-uid {
+    margin-top: 18px;
+    margin-bottom: 6px;
+
+    color: var(--texto-suave);
+
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+}
+
+#ultimo-uid {
+    display: block;
+
+    padding: 10px 12px;
+
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+
+    color: var(--dourado);
+
+    font-family: Consolas, monospace;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+
+    overflow-wrap: anywhere;
+}
+
+/* ---------- HISTÓRICO ---------- */
+
+.historico-jogo {
+    max-width: 1368px;
+    margin: 0 auto 36px;
+    padding: 30px 34px;
+
+    background: var(--fundo-secundario);
+
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+}
+
+.cabecalho-historico {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.cabecalho-historico h2 {
+    color: var(--dourado-claro);
+    font-size: 1.4rem;
+    font-weight: normal;
+}
+
+.cabecalho-historico p {
+    margin-top: 4px;
+
+    color: var(--texto-secundario);
+    font-size: 0.87rem;
+    font-style: italic;
+}
+
+.lista-eventos {
+    list-style: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+.lista-eventos li {
+    position: relative;
+
+    padding: 12px 16px 12px 35px;
+
+    background: rgba(255, 255, 255, 0.025);
+    border-left: 2px solid var(--dourado-escuro);
+    border-radius: 4px;
+
+    color: var(--texto-secundario);
+    font-size: 0.91rem;
+
+    animation: aparecerTexto 400ms ease both;
+}
+
+.lista-eventos li::before {
+    content: "✦";
+
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    color: var(--dourado);
+    font-size: 0.75rem;
+}
+
+/* ---------- RODAPÉ ---------- */
+
+.rodape-pagina {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 36px 30px;
+
+    color: var(--texto-suave);
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+}
+
+/* ---------- EFEITOS DE ATUALIZAÇÃO ---------- */
+
+.cartao.evento-destaque {
+    animation: destacarCartao 800ms ease;
+}
+
+@keyframes destacarCartao {
+    0% {
+        border-color: var(--dourado);
+        box-shadow: 0 0 24px rgba(214, 182, 117, 0.28);
+    }
+
+    100% {
+        border-color: var(--borda);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* ---------- TABLETS ---------- */
+
+@media (max-width: 1000px) {
+
+    .layout-jogo {
+        grid-template-columns: 1fr;
+    }
+
+    .painel-narrativa {
+        min-height: 520px;
+    }
+
+    .painel-rpg {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .historico-jogo {
+        margin-left: 36px;
+        margin-right: 36px;
+    }
+}
+
+/* ---------- CELULARES ---------- */
+
+@media (max-width: 640px) {
+
+    .cabecalho {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .marca-simbolo {
+        font-size: 32px;
+    }
+
+    .marca h1 {
+        font-size: 1.22rem;
+    }
+
+    .layout-jogo {
+        padding: 18px;
+        gap: 20px;
+    }
+
+    .painel-narrativa {
+        padding: 34px 24px;
+        min-height: auto;
+    }
+
+    #titulo-capitulo {
+        font-size: 2.15rem;
+    }
+
+    .cabecalho-capitulo {
+        margin-bottom: 28px;
+    }
+
+    .texto-narrativa {
+        font-size: 1rem;
+        line-height: 1.85;
+        text-align: left;
+    }
+
+    .texto-narrativa p:first-child::first-letter {
+        font-size: 2.8rem;
+    }
+
+    .evento-atual {
+        padding: 16px;
+    }
+
+    .painel-rpg {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao {
+        padding: 20px;
+    }
+
+    .historico-jogo {
+        margin: 0 18px 28px;
+        padding: 24px 20px;
+    }
+
+    .rodape-pagina {
+        flex-direction: column;
+        padding: 0 20px 25px;
+    }
+}
+
+/* ---------- ACESSIBILIDADE ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ===========================================
+   CABEÇALHO COM TÍTULO CENTRALIZADO
+   =========================================== */
+
+.cabecalho {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+}
+
+.botao-menu {
+    grid-column: 1;
+    justify-self: start;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 43px;
+    height: 43px;
+
+    background: rgba(214, 182, 117, 0.08);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+
+    color: var(--dourado);
+    font-size: 2rem;
+    line-height: 1;
+
+    cursor: pointer;
+    transition: 250ms ease;
+}
+
+.botao-menu:hover {
+    background: rgba(214, 182, 117, 0.18);
+    border-color: var(--dourado);
+}
+
+.botao-menu:focus-visible,
+.fechar-menu:focus-visible,
+.botao-salvar:focus-visible {
+    outline: 2px solid var(--dourado-claro);
+    outline-offset: 3px;
+}
+
+.marca {
+    grid-column: 2;
+    justify-self: center;
+}
+
+.conexao {
+    grid-column: 3;
+    justify-self: end;
+}
+
+/* ===========================================
+   FUNDO ESCURO DO MENU
+   =========================================== */
+
+.fundo-menu {
+    position: fixed;
+    inset: 0;
+
+    z-index: 999;
+
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+}
+
+.fundo-menu[hidden],
+.menu-historias[hidden] {
+    display: none;
+}
+
+/* ===========================================
+   MENU LATERAL
+   =========================================== */
+
+.menu-historias {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    z-index: 1000;
+
+    width: min(430px, 100%);
+    height: 100vh;
+    height: 100dvh;
+
+    overflow-y: auto;
+
+    padding: 30px 25px 45px;
+
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(214, 182, 117, 0.09),
+            transparent 45%
+        ),
+        linear-gradient(
+            180deg,
+            #1b263b,
+            #0d1422
+        );
+
+    border-right: 1px solid var(--dourado-escuro);
+
+    box-shadow: 10px 0 45px rgba(0, 0, 0, 0.5);
+
+    animation: abrirMenu 300ms ease both;
+}
+
+@keyframes abrirMenu {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===========================================
+   CABEÇALHO DO MENU
+   =========================================== */
+
+.menu-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.menu-cabecalho h2 {
+    margin-top: 10px;
+
+    color: var(--dourado-claro);
+    font-size: 1.65rem;
+    font-weight: normal;
+}
+
+.fechar-menu {
+    width: 38px;
+    height: 38px;
+
+    background: transparent;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+
+    color: var(--dourado);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.fechar-menu:hover {
+    background: rgba(214, 182, 117, 0.12);
+}
+
+.menu-descricao {
+    margin: 20px 0 30px;
+
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* ===========================================
+   SEÇÕES DE HISTÓRIA
+   =========================================== */
+
+.secao-historia {
+    margin-bottom: 26px;
+    padding: 22px;
+
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+}
+
+.secao-historia h3 {
+    margin-bottom: 20px;
+
+    color: var(--dourado-claro);
+    font-size: 1.12rem;
+    font-weight: normal;
+}
+
+.secao-historia label {
+    display: block;
+    margin-bottom: 10px;
+
+    color: var(--texto-secundario);
+    font-size: 0.82rem;
+}
+
+.secao-historia textarea {
+    display: block;
+    width: 100%;
+    min-height: 130px;
+
+    padding: 14px;
+    resize: vertical;
+
+    background: #0c1422;
+    border: 1px solid rgba(214, 182, 117, 0.22);
+    border-radius: 8px;
+
+    color: var(--texto);
+    font-family: Georgia, serif;
+    font-size: 0.94rem;
+    line-height: 1.7;
+
+    outline: none;
+    transition: border-color 200ms ease;
+}
+
+.secao-historia textarea:focus {
+    border-color: var(--dourado);
+}
+
+.secao-historia textarea::placeholder {
+    color: #748095;
+}
+
+/* ===========================================
+   BOTÕES DE SALVAR
+   =========================================== */
+
+.botao-salvar {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px 18px;
+
+    background: #c5a468;
+    border: 1px solid #e2c58f;
+    border-radius: 8px;
+
+    color: #141a24;
+    font-family: Georgia, serif;
+    font-size: 0.92rem;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 200ms ease;
+}
+
+.botao-salvar:hover {
+    background: #f1dba8;
+}
+
+/* ===========================================
+   VISUALIZAÇÃO DAS HISTÓRIAS
+   =========================================== */
+
+.historia-salva {
+    margin-top: 20px;
+    padding-top: 16px;
+
+    border-top: 1px solid var(--borda);
+}
+
+.historia-salva h4 {
+    margin-bottom: 10px;
+
+    color: var(--dourado);
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.historia-salva p {
+    color: var(--texto-secundario);
+
+    font-size: 0.9rem;
+    line-height: 1.8;
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.mensagem-salvamento {
+    min-height: 24px;
+
+    color: var(--vida);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* Impede rolagem da página enquanto menu está aberto */
+body.menu-aberto {
+    overflow: hidden;
+}
+
+/* ===========================================
+   RESPONSIVIDADE DO CABEÇALHO
+   =========================================== */
+
+@media (max-width: 900px) {
+    .cabecalho {
+        grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .marca {
+        grid-column: 2;
+        justify-self: center;
+        min-width: 0;
+    }
+
+    .conexao {
+        grid-column: 1 / -1;
+        justify-self: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .cabecalho {
+        flex-direction: initial;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .marca-simbolo {
+        display: none;
+    }
+
+    .marca {
+        text-align: center;
+    }
+
+    .marca h1 {
+        font-size: 1.1rem;
+    }
+
+    .marca p {
+        font-size: 0.72rem;
+    }
+
+    .menu-historias {
+        padding: 25px 18px;
+    }
+
+    .secao-historia {
+        padding: 17px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu-historias {
+        animation: none;
+    }
+}
+
+.link-campanha {
+    display: block;
+    margin: 20px 0 28px;
+    padding: 15px 20px;
+    color: #f1dba8;
+    background: rgba(214, 182, 117, 0.1);
+    border: 1px solid #907348;
+    border-radius: 10px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1.05rem;
+    transition: 200ms ease;
+}
+
+.link-campanha:hover {
+    background: rgba(214, 182, 117, 0.22);
+    border-color: #f1dba8;
+}

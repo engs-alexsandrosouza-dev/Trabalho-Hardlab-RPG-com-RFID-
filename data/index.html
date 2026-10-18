@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RPG RFID | Crônicas do Reino</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    
+<header class="cabecalho">
+
+    <!-- Botão que abre o menu -->
+    <button
+        type="button"
+        id="botao-menu"
+        class="botao-menu"
+        aria-label="Abrir menu de histórias"
+        aria-controls="menu-historias"
+        aria-expanded="false">
+        &#8942;
+    </button>
+
+    <!-- Título centralizado -->
+    <div class="marca">
+        <span class="marca-simbolo" aria-hidden="true">✦</span>
+
+        <div>
+            <h1>Crônicas do Reino</h1>
+            <p>Uma aventura guiada por cartas RFID</p>
+        </div>
+    </div>
+
+    <!-- Conexão com ESP32 -->
+    <div class="conexao" role="status">
+        <span
+            id="indicador-conexao"
+            class="indicador-conexao"></span>
+
+        <span id="status-conexao">
+            Conectando ao ESP32...
+        </span>
+    </div>
+
+</header>
+
+
+<!-- Fundo escuro ao abrir o menu -->
+<div
+    id="fundo-menu"
+    class="fundo-menu"
+    hidden>
+</div>
+
+<!-- Menu lateral de histórias -->
+<aside
+    id="menu-historias"
+    class="menu-historias"
+    aria-label="Editor de histórias"
+    hidden>
+
+    <div class="menu-cabecalho">
+        <div>
+            <span class="etiqueta">ARQUIVOS DO REINO</span>
+            <h2>Livro das Crônicas</h2>
+        </div>
+
+        <button
+            type="button"
+            id="fechar-menu"
+            class="fechar-menu"
+            aria-label="Fechar menu">
+            &times;
+        </button>
+    </div>
+
+    <p class="menu-descricao">
+        Registre as lendas do reino e o passado
+        dos aventureiros.
+    </p>
+  <a href="./campanha.html" class="link-campanha">
+    📖 Iniciar campanha
+</a>
+
+    <!-- História geral -->
+    <section class="secao-historia">
+        <h3>✦ História do RPG</h3>
+
+        <label for="editor-historia-rpg">
+            História do reino
+        </label>
+
+        <textarea
+            id="editor-historia-rpg"
+            rows="7"
+            placeholder="Há muito tempo, um reino nasceu entre as montanhas..."></textarea>
+
+        <button
+            type="button"
+            class="botao-salvar"
+            data-historia="rpg">
+            Salvar história
+        </button>
+
+        <div class="historia-salva">
+            <h4>História registrada</h4>
+
+            <p id="visualizacao-rpg">
+                Nenhuma história registrada.
+            </p>
+        </div>
+    </section>
+
+    <!-- Personagem 1 -->
+    <section class="secao-historia">
+        <h3>⚔ Personagem I</h3>
+
+        <label for="editor-historia-p1">
+            Passado do primeiro aventureiro
+        </label>
+
+        <textarea
+            id="editor-historia-p1"
+            rows="6"
+            placeholder="Antes de iniciar sua jornada, este aventureiro..."></textarea>
+
+        <button
+            type="button"
+            class="botao-salvar"
+            data-historia="p1">
+            Salvar personagem
+        </button>
+
+        <div class="historia-salva">
+            <h4>História registrada</h4>
+
+            <p id="visualizacao-p1">
+                Nenhuma história registrada.
+            </p>
+        </div>
+    </section>
+
+    <!-- Personagem 2 -->
+    <section class="secao-historia">
+        <h3>✧ Personagem II</h3>
+
+        <label for="editor-historia-p2">
+            Passado do segundo aventureiro
+        </label>
+
+        <textarea
+            id="editor-historia-p2"
+            rows="6"
+            placeholder="Seu destino mudou quando descobriu..."></textarea>
+
+        <button
+            type="button"
+            class="botao-salvar"
+            data-historia="p2">
+            Salvar personagem
+        </button>
+
+        <div class="historia-salva">
+            <h4>História registrada</h4>
+
+            <p id="visualizacao-p2">
+                Nenhuma história registrada.
+            </p>
+        </div>
+    </section>
+
+    <p id="mensagem-salvamento"
+       class="mensagem-salvamento"
+       role="status"
+       aria-live="polite"></p>
+
+</aside>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="layout-jogo">
+
+        <!-- ÁREA DA HISTÓRIA -->
+        <section class="painel-narrativa"
+                 aria-labelledby="titulo-capitulo">
+
+            <div class="cabecalho-capitulo">
+                <span class="etiqueta">A JORNADA</span>
+
+                <p id="numero-capitulo">
+                    Capítulo I
+                </p>
+
+                <h2 id="titulo-capitulo">
+                    O Despertar
+                </h2>
+
+                <p id="subtitulo-capitulo">
+                    Toda lenda começa com uma escolha.
+                </p>
+            </div>
+
+            <!-- TEXTO DA NARRATIVA -->
+            <article class="historia">
+                <div id="texto-narrativa"
+                     class="texto-narrativa"
+                     aria-live="polite"
+                     aria-atomic="true">
+
+                    <p>
+                        Uma névoa antiga cobre os caminhos
+                        do reino. Ao longe, as ruínas de
+                        um castelo escondem segredos
+                        esquecidos pelo tempo.
+                    </p>
+
+                    <p>
+                        Dois aventureiros foram chamados
+                        para enfrentar uma ameaça que
+                        desperta nas sombras.
+                    </p>
+
+                    <p>
+                        Aproxime uma carta de personagem
+                        do leitor RFID para iniciar
+                        sua jornada.
+                    </p>
+
+                </div>
+            </article>
+
+            <!-- EVENTO MAIS RECENTE -->
+            <div class="evento-atual"
+                 role="status"
+                 aria-live="polite">
+
+                <span class="evento-icone"
+                      aria-hidden="true">✧</span>
+
+                <div>
+                    <h3>Último acontecimento</h3>
+
+                    <p id="mensagem-evento">
+                        Aguardando a primeira carta...
+                    </p>
+                </div>
+            </div>
+
+            <!-- ORIENTAÇÃO AO JOGADOR -->
+            <footer class="rodape-narrativa">
+                <span aria-hidden="true">⌁</span>
+
+                <p id="instrucao-jogador">
+                    Aproxime uma carta RFID para continuar.
+                </p>
+            </footer>
+
+        </section>
+
+        <!-- PAINEL LATERAL DO RPG -->
+        <aside class="painel-rpg"
+               aria-label="Informações do jogo">
+
+            <!-- PERSONAGEM 1 -->
+            <section class="cartao personagem"
+                     id="cartao-personagem-1">
+
+                <div class="titulo-cartao">
+                    <span aria-hidden="true">⚔</span>
+                    <h2>Personagem I</h2>
+                </div>
+
+                <p class="classe-personagem">
+                    Aventureiro
+                </p>
+
+                <div class="informacao-status">
+                    <span>Vida</span>
+
+                    <strong id="vida-personagem-1">
+                        3 / 3
+                    </strong>
+                </div>
+
+                <div class="barra-vida"
+                     role="progressbar"
+                     id="barra-vida-personagem-1"
+                     aria-label="Vida do personagem 1"
+                     aria-valuemin="0"
+                     aria-valuemax="3"
+                     aria-valuenow="3">
+
+                    <div class="preenchimento-vida"
+                         id="progresso-vida-personagem-1"
+                         style="width: 100%;">
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- PERSONAGEM 2 -->
+            <section class="cartao personagem"
+                     id="cartao-personagem-2">
+
+                <div class="titulo-cartao">
+                    <span aria-hidden="true">✧</span>
+                    <h2>Personagem II</h2>
+                </div>
+
+                <p class="classe-personagem">
+                    Aventureiro
+                </p>
+
+                <div class="informacao-status">
+                    <span>Vida</span>
+
+                    <strong id="vida-personagem-2">
+                        3 / 3
+                    </strong>
+                </div>
+
+                <div class="barra-vida"
+                     role="progressbar"
+                     id="barra-vida-personagem-2"
+                     aria-label="Vida do personagem 2"
+                     aria-valuemin="0"
+                     aria-valuemax="3"
+                     aria-valuenow="3">
+
+                    <div class="preenchimento-vida"
+                         id="progresso-vida-personagem-2"
+                         style="width: 100%;">
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- INIMIGO -->
+            <section class="cartao cartao-inimigo">
+
+                <div class="titulo-cartao">
+                    <span aria-hidden="true">☠</span>
+                    <h2>Inimigo</h2>
+                </div>
+
+                <p id="nome-inimigo"
+                   class="nome-inimigo">
+                    Guardião das Sombras
+                </p>
+
+                <div class="informacao-status">
+                    <span>Vida restante</span>
+
+                    <strong id="vida-inimigo">
+                        3 / 3
+                    </strong>
+                </div>
+
+                <div class="barra-vida barra-inimigo"
+                     role="progressbar"
+                     id="barra-vida-inimigo"
+                     aria-label="Vida do inimigo"
+                     aria-valuemin="0"
+                     aria-valuemax="3"
+                     aria-valuenow="3">
+
+                    <div class="preenchimento-vida"
+                         id="progresso-vida-inimigo"
+                         style="width: 100%;">
+                    </div>
+                </div>
+
+                <p id="status-inimigo"
+                   class="status-inimigo">
+                    Aguardando confronto
+                </p>
+            </section>
+
+            <!-- RECURSOS -->
+            <section class="cartao recursos">
+
+                <div class="titulo-cartao">
+                    <span aria-hidden="true">◈</span>
+                    <h2>Recursos</h2>
+                </div>
+
+                <div class="recurso-item">
+                    <span>Suprimentos</span>
+
+                    <strong id="quantidade-suprimentos">
+                        10
+                    </strong>
+                </div>
+
+                <div class="recurso-item">
+                    <span>Personagem selecionado</span>
+
+                    <strong id="personagem-selecionado">
+                        Nenhum
+                    </strong>
+                </div>
+
+            </section>
+
+            <!-- ÚLTIMA CARTA -->
+            <section class="cartao leitor-rfid">
+
+                <div class="titulo-cartao">
+                    <span aria-hidden="true">⌑</span>
+                    <h2>Leitor RFID</h2>
+                </div>
+
+                <p id="status-leitor">
+                    Aguardando carta...
+                </p>
+
+                <p class="rotulo-uid">
+                    Último UID reconhecido
+                </p>
+
+                <code id="ultimo-uid">
+                    —
+                </code>
+
+            </section>
+
+        </aside>
+    </main>
+
+    <!-- REGISTRO DOS ACONTECIMENTOS -->
+    <section class="historico-jogo"
+             aria-labelledby="titulo-historico">
+
+        <div class="cabecalho-historico">
+            <h2 id="titulo-historico">
+                Registro da Jornada
+            </h2>
+
+            <p>Os acontecimentos da aventura</p>
+        </div>
+
+        <ol id="lista-eventos"
+            class="lista-eventos"
+            aria-live="polite"
+            aria-relevant="additions">
+
+            <li>
+                A aventura está prestes a começar.
+            </li>
+
+        </ol>
+    </section>
+
+    <footer class="rodape-pagina">
+        <p>
+            Crônicas do Reino · RPG RFID
+        </p>
+
+        <p>
+            Sistema desenvolvido com ESP32 e RC522
+        </p>
+    </footer>
+
+</body>
+</html>

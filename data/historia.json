@@ -1,0 +1,28 @@
+
+{
+  "vidasPersonagem1": 3,
+  "vidasPersonagem2": 2,
+  "vidaMaxima": 3,
+  "personagemSelecionado": 1,
+  "suprimentos": 8,
+
+  "vidaInimigo": 1,
+  "vidaMaximaInimigo": 3,
+  "nomeInimigo": "Guardião das Sombras",
+
+  "evento": {
+    "id": 4,
+    "tipo": "BOMBA",
+    "uid": "12 34 56 78",
+    "mensagem": "Uma explosão abala o guardião, causando 2 pontos de dano."
+  },
+
+  "capitulo": {
+    "id": 1,
+    "numero": "Capítulo I",
+    "titulo": "O Despertar",
+    "subtitulo": "Toda lenda começa com uma escolha.",
+    "texto": "O guardião ergue sua arma diante dos aventureiros.\n\nA explosão ecoa pelas ruínas, mas a batalha ainda não terminou.",
+    "instrucao": "Aproxime outra carta para continuar a batalha."
+  }
+}

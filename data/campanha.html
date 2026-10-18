@@ -1,0 +1,358 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Iniciar campanha | Crônicas do Reino</title>
+
+    <style>
+        :root {
+            color-scheme: dark;
+            --fundo: #0b101b;
+            --painel: #172133;
+            --ouro: #d6b675;
+            --texto: #f1ebdf;
+            --muted: #a5adbd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--texto);
+            font-family: Georgia, serif;
+
+            background: linear-gradient(
+                145deg,
+                #18243a,
+                var(--fundo) 65%
+            );
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+
+            max-width: 1050px;
+            margin: auto;
+            padding: 25px 20px;
+
+            border-bottom: 1px solid #56492f;
+        }
+
+        header h1 {
+            margin: 0;
+            color: var(--ouro);
+            font-size: clamp(1.3rem, 3vw, 2rem);
+        }
+
+        a {
+            color: var(--ouro);
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 920px;
+            margin: 38px auto;
+            padding: 0 20px 50px;
+        }
+
+        .livro {
+            padding: clamp(22px, 4vw, 44px);
+            background: linear-gradient(
+                160deg,
+                #1b2a40,
+                #121b2b
+            );
+
+            border: 1px solid #5e4c2f;
+            border-radius: 16px;
+            box-shadow: 0 14px 40px #0006;
+        }
+
+        h2 {
+            color: var(--ouro);
+            font-size: 1.8rem;
+            font-weight: normal;
+            margin-top: 0;
+        }
+
+        p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        label {
+            display: block;
+            margin: 24px 0 8px;
+            color: #f1dba8;
+        }
+
+        input,
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 14px;
+
+            background: #0b1422;
+            border: 1px solid #736044;
+            border-radius: 8px;
+
+            color: white;
+            font: 1rem Georgia, serif;
+            line-height: 1.65;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 130px;
+        }
+
+        #texto {
+            min-height: 300px;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: 2px solid var(--ouro);
+            outline-offset: 2px;
+        }
+
+        .acoes {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 13px 22px;
+            background: var(--ouro);
+            border: none;
+            border-radius: 8px;
+
+            color: #17202b;
+            font: 600 1rem Georgia, serif;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        #aviso {
+            min-height: 1.5em;
+            color: var(--ouro);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html">← Voltar ao RPG</a>
+        <h1>✦ Crônicas do Reino</h1>
+    </header>
+
+    <main>
+        <section class="livro">
+            <h2>Iniciar campanha</h2>
+
+            <p>
+                Escreva aqui a história principal da
+                aventura. Ela será armazenada no ESP32.
+            </p>
+
+            <form id="formulario">
+                <label for="titulo">
+                    Título da campanha
+                </label>
+
+                <input
+                    id="titulo"
+                    name="titulo"
+                    maxlength="100"
+                    placeholder="O Reino Esquecido"
+                    required>
+
+                <label for="subtitulo">
+                    Introdução curta
+                </label>
+
+                <textarea
+                    id="subtitulo"
+                    name="subtitulo"
+                    maxlength="160"
+                    rows="3"
+                    placeholder="Uma jornada começa entre ruínas e mistérios..."></textarea>
+
+                <label for="texto">
+                    História da campanha
+                </label>
+
+                <textarea
+                    id="texto"
+                    name="texto"
+                    placeholder="Era uma vez um reino..."
+                    required></textarea>
+
+                <div class="acoes">
+                    <button id="salvar" type="submit">
+                        Salvar campanha
+                    </button>
+
+                    <span
+                        id="aviso"
+                        role="status"
+                        aria-live="polite"></span>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        "use strict";
+
+        const formulario =
+            document.getElementById("formulario");
+
+        const aviso =
+            document.getElementById("aviso");
+
+        const botaoSalvar =
+            document.getElementById("salvar");
+
+        const campos = ["titulo", "subtitulo", "texto"];
+
+        let editadoDuranteCarregamento = false;
+
+        formulario.addEventListener("input", () => {
+            editadoDuranteCarregamento = true;
+        });
+
+        async function carregarCampanha() {
+            try {
+                const resposta = await fetch(
+                    "/campanha/dados",
+                    { cache: "no-store" }
+                );
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        `HTTP ${resposta.status}`
+                    );
+                }
+
+                const dados = await resposta.json();
+
+                if (editadoDuranteCarregamento) {
+                    return;
+                }
+
+                for (const nome of campos) {
+                    document.getElementById(nome).value =
+                        typeof dados[nome] === "string"
+                            ? dados[nome]
+                            : "";
+                }
+
+            } catch (erro) {
+                aviso.textContent =
+                    "Não foi possível carregar a campanha.";
+
+                console.error(erro);
+            }
+        }
+
+        formulario.addEventListener(
+            "submit",
+            async (evento) => {
+                evento.preventDefault();
+
+                const titulo =
+                    document.getElementById("titulo")
+                        .value.trim();
+
+                const subtitulo =
+                    document.getElementById("subtitulo")
+                        .value.trim();
+
+                const texto =
+                    document.getElementById("texto")
+                        .value.trim();
+
+                const encoder = new TextEncoder();
+
+                if (!titulo || !texto) {
+                    aviso.textContent =
+                        "Preencha o título e a história.";
+                    return;
+                }
+
+                if (
+                    encoder.encode(titulo).length > 100 ||
+                    encoder.encode(subtitulo).length > 160 ||
+                    encoder.encode(texto).length > 6000
+                ) {
+                    aviso.textContent =
+                        "Texto acima do limite permitido.";
+                    return;
+                }
+
+                botaoSalvar.disabled = true;
+                aviso.textContent = "Salvando...";
+
+                try {
+                    const dados = new URLSearchParams({
+                        titulo,
+                        subtitulo,
+                        texto
+                    });
+
+                    const resposta = await fetch(
+                        "/campanha/dados",
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type":
+                                "application/x-www-form-urlencoded"
+                            },
+                            body: dados.toString()
+                        }
+                    );
+
+                    if (!resposta.ok) {
+                        throw new Error(
+                            `HTTP ${resposta.status}`
+                        );
+                    }
+
+                    aviso.textContent =
+                        "Campanha salva no ESP32!";
+
+                } catch (erro) {
+                    aviso.textContent =
+                        "Erro ao salvar. Verifique a conexão.";
+
+                    console.error(erro);
+
+                } finally {
+                    botaoSalvar.disabled = false;
+                }
+            }
+        );
+
+        carregarCampanha();
+    </script>
+</body>
+</html>
