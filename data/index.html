@@ -1,11 +1,25 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
 
-    <title>RPG RFID | Crônicas do Reino</title>
+    <title>Crônicas de Sangue e Cinzas · RPG RFID</title>
+
+    <!-- Fontes góticas -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -13,460 +27,793 @@
 
 <body>
 
-    <!-- CABEÇALHO -->
-    
-<header class="cabecalho">
+<div class="app">
 
-    <!-- Botão que abre o menu -->
-    <button
-        type="button"
-        id="botao-menu"
-        class="botao-menu"
-        aria-label="Abrir menu de histórias"
-        aria-controls="menu-historias"
-        aria-expanded="false">
-        &#8942;
-    </button>
+    <!-- =====================================
+         MENU LATERAL GÓTICO
+         ===================================== -->
 
-    <!-- Título centralizado -->
-    <div class="marca">
-        <span class="marca-simbolo" aria-hidden="true">✦</span>
+    <aside class="sidebar">
 
-        <div>
-            <h1>Crônicas do Reino</h1>
-            <p>Uma aventura guiada por cartas RFID</p>
-        </div>
-    </div>
+        <div class="brand">
 
-    <!-- Conexão com ESP32 -->
-    <div class="conexao" role="status">
-        <span
-            id="indicador-conexao"
-            class="indicador-conexao"></span>
+            <div class="sigil">♰</div>
 
-        <span id="status-conexao">
-            Conectando ao ESP32...
-        </span>
-    </div>
+            <h1>
+                Crônicas de<br>
+                Sangue &amp; Cinzas
+            </h1>
 
-</header>
+            <small>O códice dos eternos</small>
 
+            <div class="divider-orn">✧</div>
 
-<!-- Fundo escuro ao abrir o menu -->
-<div
-    id="fundo-menu"
-    class="fundo-menu"
-    hidden>
-</div>
-
-<!-- Menu lateral de histórias -->
-<aside
-    id="menu-historias"
-    class="menu-historias"
-    aria-label="Editor de histórias"
-    hidden>
-
-    <div class="menu-cabecalho">
-        <div>
-            <span class="etiqueta">ARQUIVOS DO REINO</span>
-            <h2>Livro das Crônicas</h2>
         </div>
 
-        <button
-            type="button"
-            id="fechar-menu"
-            class="fechar-menu"
-            aria-label="Fechar menu">
-            &times;
-        </button>
-    </div>
+        <nav class="nav" aria-label="Navegação">
 
-    <p class="menu-descricao">
-        Registre as lendas do reino e o passado
-        dos aventureiros.
-    </p>
-  <a href="./campanha.html" class="link-campanha">
-    📖 Iniciar campanha
-</a>
+            <button class="active"
+                    data-view="jornada">
+                <span>♜</span>
+                A jornada
+            </button>
 
-    <!-- História geral -->
-    <section class="secao-historia">
-        <h3>✦ História do RPG</h3>
+            <button data-view="arquivos">
+                <span>☷</span>
+                Arquivos do reino
+            </button>
 
-        <label for="editor-historia-rpg">
-            História do reino
-        </label>
+            <button data-view="visualizar">
+                <span>◈</span>
+                Visualizar história
+            </button>
 
-        <textarea
-            id="editor-historia-rpg"
-            rows="7"
-            placeholder="Há muito tempo, um reino nasceu entre as montanhas..."></textarea>
+            <button data-view="personagens">
+                <span>⚔</span>
+                Os escolhidos
+            </button>
 
-        <button
-            type="button"
-            class="botao-salvar"
-            data-historia="rpg">
-            Salvar história
-        </button>
+            <a href="campanha.html">
+                <span>✠</span>
+                Nova campanha
+            </a>
 
-        <div class="historia-salva">
-            <h4>História registrada</h4>
+        </nav>
 
-            <p id="visualizacao-rpg">
-                Nenhuma história registrada.
-            </p>
-        </div>
-    </section>
+        <div class="side-bottom conexao"
+             role="status">
 
-    <!-- Personagem 1 -->
-    <section class="secao-historia">
-        <h3>⚔ Personagem I</h3>
-
-        <label for="editor-historia-p1">
-            Passado do primeiro aventureiro
-        </label>
-
-        <textarea
-            id="editor-historia-p1"
-            rows="6"
-            placeholder="Antes de iniciar sua jornada, este aventureiro..."></textarea>
-
-        <button
-            type="button"
-            class="botao-salvar"
-            data-historia="p1">
-            Salvar personagem
-        </button>
-
-        <div class="historia-salva">
-            <h4>História registrada</h4>
-
-            <p id="visualizacao-p1">
-                Nenhuma história registrada.
-            </p>
-        </div>
-    </section>
-
-    <!-- Personagem 2 -->
-    <section class="secao-historia">
-        <h3>✧ Personagem II</h3>
-
-        <label for="editor-historia-p2">
-            Passado do segundo aventureiro
-        </label>
-
-        <textarea
-            id="editor-historia-p2"
-            rows="6"
-            placeholder="Seu destino mudou quando descobriu..."></textarea>
-
-        <button
-            type="button"
-            class="botao-salvar"
-            data-historia="p2">
-            Salvar personagem
-        </button>
-
-        <div class="historia-salva">
-            <h4>História registrada</h4>
-
-            <p id="visualizacao-p2">
-                Nenhuma história registrada.
-            </p>
-        </div>
-    </section>
-
-    <p id="mensagem-salvamento"
-       class="mensagem-salvamento"
-       role="status"
-       aria-live="polite"></p>
-
-</aside>
-
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="layout-jogo">
-
-        <!-- ÁREA DA HISTÓRIA -->
-        <section class="painel-narrativa"
-                 aria-labelledby="titulo-capitulo">
-
-            <div class="cabecalho-capitulo">
-                <span class="etiqueta">A JORNADA</span>
-
-                <p id="numero-capitulo">
-                    Capítulo I
-                </p>
-
-                <h2 id="titulo-capitulo">
-                    O Despertar
-                </h2>
-
-                <p id="subtitulo-capitulo">
-                    Toda lenda começa com uma escolha.
-                </p>
+            <div class="status"
+                 id="status-conexao">
+                Conectando ao ESP32...
             </div>
 
-            <!-- TEXTO DA NARRATIVA -->
-            <article class="historia">
-                <div id="texto-narrativa"
-                     class="texto-narrativa"
-                     aria-live="polite"
-                     aria-atomic="true">
+            <p>
+                As cartas RFID conduzem a aventura.
+            </p>
 
-                    <p>
-                        Uma névoa antiga cobre os caminhos
-                        do reino. Ao longe, as ruínas de
-                        um castelo escondem segredos
-                        esquecidos pelo tempo.
-                    </p>
+        </div>
 
-                    <p>
-                        Dois aventureiros foram chamados
-                        para enfrentar uma ameaça que
-                        desperta nas sombras.
-                    </p>
+    </aside>
 
-                    <p>
-                        Aproxime uma carta de personagem
-                        do leitor RFID para iniciar
-                        sua jornada.
-                    </p>
 
+    <!-- =====================================
+         CONTEÚDO PRINCIPAL
+         ===================================== -->
+
+    <div class="content">
+
+        <header class="topbar">
+
+            <div class="crumb">
+                ELIRIA
+                <span style="color:var(--blood)">✦</span>
+                TEMPLO DA CONSAGRAÇÃO
+            </div>
+
+            <div class="chapter" id="top-label">
+                ATO I — O DESPERTAR
+            </div>
+
+        </header>
+
+
+        <!-- =================================
+             ABA 1 — A JORNADA
+             ================================= -->
+
+        <section id="jornada"
+                 class="section active">
+
+            <div class="masthead">
+
+                <div class="eyebrow">
+                    ✠ Registro da noite maldita ✠
                 </div>
-            </article>
 
-            <!-- EVENTO MAIS RECENTE -->
-            <div class="evento-atual"
-                 role="status"
-                 aria-live="polite">
+                <h2>A Queda dos Eternos</h2>
 
-                <span class="evento-icone"
-                      aria-hidden="true">✧</span>
+                <p>
+                    “Sob os sinos do templo,
+                    nem toda bênção é sagrada.”
+                </p>
+
+                <div class="rose">✦ ♰ ✦</div>
+
+            </div>
+
+
+            <div class="game-grid">
+
+                <!-- NARRATIVA -->
 
                 <div>
-                    <h3>Último acontecimento</h3>
 
-                    <p id="mensagem-evento">
-                        Aguardando a primeira carta...
-                    </p>
+                    <article class="parchment">
+
+                        <div class="arch"
+                             aria-hidden="true"></div>
+
+                        <div class="scene-mark"
+                             id="numero-capitulo">
+                            CAPÍTULO I
+                        </div>
+
+                        <h3 id="titulo-capitulo">
+                            O Despertar
+                        </h3>
+
+                        <p class="subchapter"
+                           id="subtitulo-capitulo">
+                            Toda lenda começa com uma escolha.
+                        </p>
+
+                        <div class="divider-orn">❖</div>
+
+                        <div id="texto-narrativa"
+                             class="story">
+
+                            <p>
+                                Aproxime uma carta para
+                                começar sua aventura.
+                            </p>
+
+                        </div>
+
+                        <!-- EVENTO ATUAL -->
+
+                        <div class="eventbox">
+
+                            <strong>
+                                ✦ ÚLTIMO PRESSÁGIO
+                            </strong>
+
+                            <p id="mensagem-evento">
+                                Aguardando a primeira carta...
+                            </p>
+
+                        </div>
+
+                        <!-- INSTRUÇÃO RFID -->
+
+                        <div class="instruction"
+                             id="instrucao-jogador">
+
+                            Aproxime uma carta RFID
+                            para continuar.
+
+                        </div>
+
+                    </article>
+
+                    <div class="no-device">
+                        ◈ A progressão é realizada pelas
+                        cartas RFID reconhecidas pelo ESP32.
+                    </div>
+
                 </div>
+
+
+                <!-- PAINEL DE COMBATE -->
+
+                <div class="rail">
+
+                    <!-- PERSONAGENS -->
+
+                    <div class="frame">
+
+                        <h4>
+                            ☷ O DESTINO DOS ESCOLHIDOS
+                        </h4>
+
+                        <div class="entity"
+                             id="cartao-personagem-1">
+
+                            <div class="entity-name">
+
+                                <b>⚔ Escolhido I</b>
+
+                                <em id="vida-personagem-1">
+                                    3 / 3
+                                </em>
+
+                            </div>
+
+                            <div class="bar hero"
+                                 id="barra-vida-personagem-1"
+                                 role="progressbar"
+                                 aria-label="Vida do escolhido I"
+                                 aria-valuemin="0"
+                                 aria-valuemax="3"
+                                 aria-valuenow="3">
+
+                                <i id="progresso-vida-personagem-1"></i>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="entity"
+                             id="cartao-personagem-2">
+
+                            <div class="entity-name">
+
+                                <b>⚔ Escolhido II</b>
+
+                                <em id="vida-personagem-2">
+                                    3 / 3
+                                </em>
+
+                            </div>
+
+                            <div class="bar hero"
+                                 id="barra-vida-personagem-2"
+                                 role="progressbar"
+                                 aria-label="Vida do escolhido II"
+                                 aria-valuemin="0"
+                                 aria-valuemax="3"
+                                 aria-valuenow="3">
+
+                                <i id="progresso-vida-personagem-2"></i>
+
+                            </div>
+
+                        </div>
+
+                        <p class="small"
+                           id="personagem-selecionado">
+                            Nenhum escolhido ativo
+                        </p>
+
+                    </div>
+
+
+                    <!-- INIMIGO -->
+
+                    <div class="frame cartao-inimigo">
+
+                        <h4>♰ A AMEAÇA</h4>
+
+                        <div class="entity-name">
+
+                            <b id="nome-inimigo">
+                                Guardião das Sombras
+                            </b>
+
+                            <em id="vida-inimigo">
+                                3 / 3
+                            </em>
+
+                        </div>
+
+                        <div class="bar"
+                             id="barra-vida-inimigo"
+                             role="progressbar"
+                             aria-label="Vida do inimigo"
+                             aria-valuemin="0"
+                             aria-valuemax="3"
+                             aria-valuenow="3">
+
+                            <i id="progresso-vida-inimigo"></i>
+
+                        </div>
+
+                        <p class="small"
+                           id="status-inimigo">
+                            Aguardando confronto
+                        </p>
+
+                    </div>
+
+
+                    <!-- RECURSOS -->
+
+                    <div class="frame">
+
+                        <h4>
+                            ◈ RELÍQUIAS &amp; SUPRIMENTOS
+                        </h4>
+
+                        <div class="resource">
+
+                            <span>Suprimentos</span>
+
+                            <b id="quantidade-suprimentos">
+                                10
+                            </b>
+
+                        </div>
+
+                        <div class="resource">
+
+                            <span>Última carta</span>
+
+                            <b id="ultimo-uid">
+                                —
+                            </b>
+
+                        </div>
+
+                        <p class="reader-status"
+                           id="status-leitor">
+                            Aguardando carta...
+                        </p>
+
+                    </div>
+
+                </div>
+
             </div>
 
-            <!-- ORIENTAÇÃO AO JOGADOR -->
-            <footer class="rodape-narrativa">
-                <span aria-hidden="true">⌁</span>
 
-                <p id="instrucao-jogador">
-                    Aproxime uma carta RFID para continuar.
-                </p>
-            </footer>
+            <!-- HISTÓRICO DE ACONTECIMENTOS -->
+
+            <div class="frame log">
+
+                <h4>✦ ANAIS DA JORNADA</h4>
+
+                <ol id="lista-eventos">
+
+                    <li>
+                        A aventura está prestes a começar.
+                    </li>
+
+                </ol>
+
+            </div>
 
         </section>
 
-        <!-- PAINEL LATERAL DO RPG -->
-        <aside class="painel-rpg"
-               aria-label="Informações do jogo">
 
-            <!-- PERSONAGEM 1 -->
-            <section class="cartao personagem"
-                     id="cartao-personagem-1">
+        <!-- =================================
+             ABA 2 — ARQUIVOS DO REINO
+             ================================= -->
 
-                <div class="titulo-cartao">
-                    <span aria-hidden="true">⚔</span>
-                    <h2>Personagem I</h2>
+        <section id="arquivos" class="section">
+
+            <div class="masthead">
+
+                <div class="eyebrow">
+                    Escrituras seladas
                 </div>
 
-                <p class="classe-personagem">
-                    Aventureiro
+                <h2>Arquivos do Reino</h2>
+
+                <p>
+                    Uma biblioteca de pergaminhos,
+                    segredos e histórias esquecidas.
                 </p>
 
-                <div class="informacao-status">
-                    <span>Vida</span>
+                <div class="rose">✦ ♰ ✦</div>
 
-                    <strong id="vida-personagem-1">
-                        3 / 3
-                    </strong>
+            </div>
+
+
+            <div class="archive-grid">
+
+                <!-- SELETOR DOS TOMOS -->
+
+                <div class="archive-tabs">
+
+                    <button class="active"
+                            data-doc="rpg">
+
+                        I · O Reino
+
+                        <span>
+                            História geral de Eliria
+                        </span>
+
+                    </button>
+
+                    <button data-doc="p1">
+
+                        II · Escolhido I
+
+                        <span>
+                            Origem do primeiro herói
+                        </span>
+
+                    </button>
+
+                    <button data-doc="p2">
+
+                        III · Escolhido II
+
+                        <span>
+                            Origem do segundo herói
+                        </span>
+
+                    </button>
+
                 </div>
 
-                <div class="barra-vida"
-                     role="progressbar"
-                     id="barra-vida-personagem-1"
-                     aria-label="Vida do personagem 1"
-                     aria-valuemin="0"
-                     aria-valuemax="3"
-                     aria-valuenow="3">
 
-                    <div class="preenchimento-vida"
-                         id="progresso-vida-personagem-1"
-                         style="width: 100%;">
+                <!-- EDITOR DOS PERGAMINHOS -->
+
+                <div class="frame archive-sheet">
+
+                    <div class="eyebrow"
+                         id="doc-label">
+                        TOMO I · O REINO
                     </div>
-                </div>
 
-            </section>
+                    <h3 id="doc-title">
+                        Memórias de Eliria
+                    </h3>
 
-            <!-- PERSONAGEM 2 -->
-            <section class="cartao personagem"
-                     id="cartao-personagem-2">
+                    <p id="doc-desc">
+                        Inscreva no códice a história
+                        e as lendas que antecedem
+                        a Consagração.
+                    </p>
 
-                <div class="titulo-cartao">
-                    <span aria-hidden="true">✧</span>
-                    <h2>Personagem II</h2>
-                </div>
 
-                <p class="classe-personagem">
-                    Aventureiro
-                </p>
+                    <!-- TOMO I -->
 
-                <div class="informacao-status">
-                    <span>Vida</span>
+                    <div class="archive-panel"
+                         id="panel-rpg">
 
-                    <strong id="vida-personagem-2">
-                        3 / 3
-                    </strong>
-                </div>
+                        <label for="editor-historia-rpg">
+                            Escritura do pergaminho · O reino
+                        </label>
 
-                <div class="barra-vida"
-                     role="progressbar"
-                     id="barra-vida-personagem-2"
-                     aria-label="Vida do personagem 2"
-                     aria-valuemin="0"
-                     aria-valuemax="3"
-                     aria-valuenow="3">
+                        <textarea
+                            id="editor-historia-rpg"
+                            placeholder="Inscreva a história aqui..."></textarea>
 
-                    <div class="preenchimento-vida"
-                         id="progresso-vida-personagem-2"
-                         style="width: 100%;">
+                        <div class="row">
+
+                            <button class="btn botao-salvar"
+                                    data-historia="rpg">
+
+                                ✦ Selar pergaminho
+
+                            </button>
+
+                            <span class="note"
+                                  id="msg-rpg"
+                                  role="status"></span>
+
+                        </div>
+
+                        <p class="small spaced">
+                            Escritura salva:
+                        </p>
+
+                        <p id="visualizacao-rpg"
+                           class="preview-content">
+                            Nenhuma história registrada.
+                        </p>
+
                     </div>
-                </div>
 
-            </section>
 
-            <!-- INIMIGO -->
-            <section class="cartao cartao-inimigo">
+                    <!-- TOMO II -->
 
-                <div class="titulo-cartao">
-                    <span aria-hidden="true">☠</span>
-                    <h2>Inimigo</h2>
-                </div>
+                    <div class="archive-panel"
+                         id="panel-p1"
+                         hidden>
 
-                <p id="nome-inimigo"
-                   class="nome-inimigo">
-                    Guardião das Sombras
-                </p>
+                        <label for="editor-historia-p1">
+                            Escritura do pergaminho · Escolhido I
+                        </label>
 
-                <div class="informacao-status">
-                    <span>Vida restante</span>
+                        <textarea
+                            id="editor-historia-p1"
+                            placeholder="Inscreva a história aqui..."></textarea>
 
-                    <strong id="vida-inimigo">
-                        3 / 3
-                    </strong>
-                </div>
+                        <div class="row">
 
-                <div class="barra-vida barra-inimigo"
-                     role="progressbar"
-                     id="barra-vida-inimigo"
-                     aria-label="Vida do inimigo"
-                     aria-valuemin="0"
-                     aria-valuemax="3"
-                     aria-valuenow="3">
+                            <button class="btn botao-salvar"
+                                    data-historia="p1">
 
-                    <div class="preenchimento-vida"
-                         id="progresso-vida-inimigo"
-                         style="width: 100%;">
+                                ✦ Selar pergaminho
+
+                            </button>
+
+                            <span class="note"
+                                  id="msg-p1"
+                                  role="status"></span>
+
+                        </div>
+
+                        <p class="small spaced">
+                            Escritura salva:
+                        </p>
+
+                        <p id="visualizacao-p1"
+                           class="preview-content">
+                            Nenhuma história registrada.
+                        </p>
+
                     </div>
+
+
+                    <!-- TOMO III -->
+
+                    <div class="archive-panel"
+                         id="panel-p2"
+                         hidden>
+
+                        <label for="editor-historia-p2">
+                            Escritura do pergaminho · Escolhido II
+                        </label>
+
+                        <textarea
+                            id="editor-historia-p2"
+                            placeholder="Inscreva a história aqui..."></textarea>
+
+                        <div class="row">
+
+                            <button class="btn botao-salvar"
+                                    data-historia="p2">
+
+                                ✦ Selar pergaminho
+
+                            </button>
+
+                            <span class="note"
+                                  id="msg-p2"
+                                  role="status"></span>
+
+                        </div>
+
+                        <p class="small spaced">
+                            Escritura salva:
+                        </p>
+
+                        <p id="visualizacao-p2"
+                           class="preview-content">
+                            Nenhuma história registrada.
+                        </p>
+
+                    </div>
+
+
+                    <p id="mensagem-salvamento"
+                       class="note"
+                       role="status"
+                       aria-live="polite"></p>
+
                 </div>
 
-                <p id="status-inimigo"
-                   class="status-inimigo">
-                    Aguardando confronto
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             ABA 3 — VISUALIZAR HISTÓRIA
+             ================================= -->
+
+        <section id="visualizar" class="section">
+
+            <div class="masthead">
+
+                <div class="eyebrow">
+                    O códice aberto
+                </div>
+
+                <h2>Visualizar História</h2>
+
+                <p>
+                    Leia a crônica principal e os
+                    relatos guardados no reino.
                 </p>
-            </section>
 
-            <!-- RECURSOS -->
-            <section class="cartao recursos">
+                <div class="rose">✦ ♰ ✦</div>
 
-                <div class="titulo-cartao">
-                    <span aria-hidden="true">◈</span>
-                    <h2>Recursos</h2>
+            </div>
+
+
+            <!-- CAMPANHA PRINCIPAL -->
+
+            <article class="parchment"
+                     style="min-height:auto">
+
+                <div class="arch"
+                     aria-hidden="true"></div>
+
+                <div class="scene-mark">
+                    CRÔNICA SELADA
                 </div>
 
-                <div class="recurso-item">
-                    <span>Suprimentos</span>
+                <h3 id="preview-campaign-title">
+                    Nenhuma campanha registrada
+                </h3>
 
-                    <strong id="quantidade-suprimentos">
-                        10
-                    </strong>
-                </div>
+                <p class="subchapter"
+                   id="preview-campaign-sub"></p>
 
-                <div class="recurso-item">
-                    <span>Personagem selecionado</span>
+                <div class="divider-orn">❖</div>
 
-                    <strong id="personagem-selecionado">
-                        Nenhum
-                    </strong>
-                </div>
+                <div class="preview-content"
+                     id="preview-campaign-story"></div>
 
-            </section>
+                <p class="instruction">
 
-            <!-- ÚLTIMA CARTA -->
-            <section class="cartao leitor-rfid">
+                    <a href="campanha.html"
+                       class="btn linkbtn">
 
-                <div class="titulo-cartao">
-                    <span aria-hidden="true">⌑</span>
-                    <h2>Leitor RFID</h2>
-                </div>
+                        ✠ Editar campanha
 
-                <p id="status-leitor">
-                    Aguardando carta...
+                    </a>
+
                 </p>
 
-                <p class="rotulo-uid">
-                    Último UID reconhecido
+            </article>
+
+
+            <!-- HISTÓRIAS COMPLEMENTARES -->
+
+            <div class="preview-columns spaced">
+
+                <article class="frame">
+
+                    <div class="preview-title">
+                        TOMO I · O REINO
+                    </div>
+
+                    <p class="preview-content"
+                       id="preview-rpg"></p>
+
+                </article>
+
+
+                <article class="frame">
+
+                    <div class="preview-title">
+                        TOMO II · ESCOLHIDO I
+                    </div>
+
+                    <p class="preview-content"
+                       id="preview-p1"></p>
+
+                </article>
+
+
+                <article class="frame">
+
+                    <div class="preview-title">
+                        TOMO III · ESCOLHIDO II
+                    </div>
+
+                    <p class="preview-content"
+                       id="preview-p2"></p>
+
+                </article>
+
+            </div>
+
+            <p class="notice"
+               id="preview-message"
+               role="status"></p>
+
+        </section>
+
+
+        <!-- =================================
+             ABA 4 — OS ESCOLHIDOS
+             ================================= -->
+
+        <section id="personagens" class="section">
+
+            <div class="masthead">
+
+                <div class="eyebrow">
+                    Sangue, juramento e destino
+                </div>
+
+                <h2>Os Escolhidos</h2>
+
+                <p>
+                    Aqueles que ousaram desafiar
+                    os falsos eternos.
                 </p>
 
-                <code id="ultimo-uid">
-                    —
-                </code>
+                <div class="rose">✦ ♰ ✦</div>
 
-            </section>
+            </div>
 
-        </aside>
-    </main>
 
-    <!-- REGISTRO DOS ACONTECIMENTOS -->
-    <section class="historico-jogo"
-             aria-labelledby="titulo-historico">
+            <div class="cards3">
 
-        <div class="cabecalho-historico">
-            <h2 id="titulo-historico">
-                Registro da Jornada
-            </h2>
+                <!-- ESCOLHIDO I -->
 
-            <p>Os acontecimentos da aventura</p>
-        </div>
+                <article class="frame">
 
-        <ol id="lista-eventos"
-            class="lista-eventos"
-            aria-live="polite"
-            aria-relevant="additions">
+                    <h3>⚔ Escolhido I</h3>
 
-            <li>
-                A aventura está prestes a começar.
-            </li>
+                    <p id="detalhe-p1">
+                        Um aventureiro convocado
+                        para entrar no templo.
+                    </p>
 
-        </ol>
-    </section>
+                    <p class="small">
 
-    <footer class="rodape-pagina">
-        <p>
-            Crônicas do Reino · RPG RFID
-        </p>
+                        Vida:
+                        <span id="detail-v1">
+                            3 / 3
+                        </span>
 
-        <p>
-            Sistema desenvolvido com ESP32 e RC522
-        </p>
-    </footer>
+                    </p>
+
+                </article>
+
+
+                <!-- ESCOLHIDO II -->
+
+                <article class="frame">
+
+                    <h3>⚔ Escolhido II</h3>
+
+                    <p id="detalhe-p2">
+                        O passado deste aventureiro
+                        aguarda revelação.
+                    </p>
+
+                    <p class="small">
+
+                        Vida:
+                        <span id="detail-v2">
+                            3 / 3
+                        </span>
+
+                    </p>
+
+                </article>
+
+
+                <!-- INIMIGO -->
+
+                <article class="frame">
+
+                    <h3>♰ A ameaça</h3>
+
+                    <p id="detalhe-inimigo">
+                        O templo esconde seus guardiões.
+                    </p>
+
+                    <p class="small">
+
+                        Vida:
+                        <span id="detail-ve">
+                            3 / 3
+                        </span>
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
 
 </body>
 </html>

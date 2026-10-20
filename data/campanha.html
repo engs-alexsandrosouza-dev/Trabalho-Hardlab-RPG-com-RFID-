@@ -1,358 +1,600 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport"
           content="width=device-width, initial-scale=1">
 
-    <title>Iniciar campanha | Crônicas do Reino</title>
+    <title>
+        Nova Campanha | Crônicas de Sangue e Cinzas
+    </title>
 
-    <style>
-        :root {
-            color-scheme: dark;
-            --fundo: #0b101b;
-            --painel: #172133;
-            --ouro: #d6b675;
-            --texto: #f1ebdf;
-            --muted: #a5adbd;
-        }
+    <!-- Fontes góticas -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-        * {
-            box-sizing: border-box;
-        }
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            color: var(--texto);
-            font-family: Georgia, serif;
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-            background: linear-gradient(
-                145deg,
-                #18243a,
-                var(--fundo) 65%
-            );
-        }
-
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-
-            max-width: 1050px;
-            margin: auto;
-            padding: 25px 20px;
-
-            border-bottom: 1px solid #56492f;
-        }
-
-        header h1 {
-            margin: 0;
-            color: var(--ouro);
-            font-size: clamp(1.3rem, 3vw, 2rem);
-        }
-
-        a {
-            color: var(--ouro);
-            text-decoration: none;
-        }
-
-        main {
-            max-width: 920px;
-            margin: 38px auto;
-            padding: 0 20px 50px;
-        }
-
-        .livro {
-            padding: clamp(22px, 4vw, 44px);
-            background: linear-gradient(
-                160deg,
-                #1b2a40,
-                #121b2b
-            );
-
-            border: 1px solid #5e4c2f;
-            border-radius: 16px;
-            box-shadow: 0 14px 40px #0006;
-        }
-
-        h2 {
-            color: var(--ouro);
-            font-size: 1.8rem;
-            font-weight: normal;
-            margin-top: 0;
-        }
-
-        p {
-            color: var(--muted);
-            line-height: 1.7;
-        }
-
-        label {
-            display: block;
-            margin: 24px 0 8px;
-            color: #f1dba8;
-        }
-
-        input,
-        textarea {
-            display: block;
-            width: 100%;
-            padding: 14px;
-
-            background: #0b1422;
-            border: 1px solid #736044;
-            border-radius: 8px;
-
-            color: white;
-            font: 1rem Georgia, serif;
-            line-height: 1.65;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 130px;
-        }
-
-        #texto {
-            min-height: 300px;
-        }
-
-        input:focus,
-        textarea:focus {
-            outline: 2px solid var(--ouro);
-            outline-offset: 2px;
-        }
-
-        .acoes {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 14px;
-            margin-top: 25px;
-        }
-
-        button {
-            padding: 13px 22px;
-            background: var(--ouro);
-            border: none;
-            border-radius: 8px;
-
-            color: #17202b;
-            font: 600 1rem Georgia, serif;
-            cursor: pointer;
-        }
-
-        button:disabled {
-            opacity: 0.55;
-            cursor: wait;
-        }
-
-        #aviso {
-            min-height: 1.5em;
-            color: var(--ouro);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <header>
-        <a href="index.html">← Voltar ao RPG</a>
-        <h1>✦ Crônicas do Reino</h1>
-    </header>
 
-    <main>
-        <section class="livro">
-            <h2>Iniciar campanha</h2>
+<div class="app">
+
+    <!-- ======================================
+         MENU LATERAL GÓTICO
+         ====================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="sigil">♰</div>
+
+            <h1>
+                Crônicas de<br>
+                Sangue &amp; Cinzas
+            </h1>
+
+            <small>O códice dos eternos</small>
+
+            <div class="divider-orn">✧</div>
+
+        </div>
+
+        <nav class="nav" aria-label="Navegação">
+
+            <a href="index.html">
+                <span>♜</span>
+                A jornada
+            </a>
+
+            <a href="index.html#visualizar">
+                <span>◈</span>
+                Visualizar história
+            </a>
+
+            <a href="index.html#arquivos">
+                <span>☷</span>
+                Arquivos do reino
+            </a>
+
+            <button class="active" type="button">
+                <span>✠</span>
+                Nova campanha
+            </button>
+
+        </nav>
+
+        <div class="side-bottom">
+
+            <div class="status">
+                ✦ O LIVRO PROIBIDO
+            </div>
 
             <p>
-                Escreva aqui a história principal da
-                aventura. Ela será armazenada no ESP32.
+                Registre sua história nos
+                arquivos do ESP32.
             </p>
 
-            <form id="formulario">
-                <label for="titulo">
-                    Título da campanha
-                </label>
+        </div>
 
-                <input
-                    id="titulo"
-                    name="titulo"
-                    maxlength="100"
-                    placeholder="O Reino Esquecido"
-                    required>
+    </aside>
 
-                <label for="subtitulo">
-                    Introdução curta
-                </label>
 
-                <textarea
-                    id="subtitulo"
-                    name="subtitulo"
-                    maxlength="160"
-                    rows="3"
-                    placeholder="Uma jornada começa entre ruínas e mistérios..."></textarea>
+    <!-- ======================================
+         CONTEÚDO PRINCIPAL
+         ====================================== -->
 
-                <label for="texto">
-                    História da campanha
-                </label>
+    <div class="content">
 
-                <textarea
-                    id="texto"
-                    name="texto"
-                    placeholder="Era uma vez um reino..."
-                    required></textarea>
+        <header class="topbar">
 
-                <div class="acoes">
-                    <button id="salvar" type="submit">
-                        Salvar campanha
+            <div class="crumb">
+                ELIRIA
+                <span style="color:var(--blood)">
+                    ✦
+                </span>
+                O CÓDICE
+            </div>
+
+            <div class="chapter">
+                CRÔNICA PRINCIPAL
+            </div>
+
+        </header>
+
+
+        <main class="section active">
+
+            <!-- TÍTULO DA PÁGINA -->
+
+            <div class="masthead">
+
+                <div class="eyebrow">
+                    ✠ O livro proibido ✠
+                </div>
+
+                <h2>Nova Campanha</h2>
+
+                <p>
+                    O destino de Eliria pode ser reescrito.
+                </p>
+
+                <div class="rose">✦ ♰ ✦</div>
+
+            </div>
+
+
+            <!-- =================================
+                 ÁREA DO MANUSCRITO
+                 ================================= -->
+
+            <div style="max-width:900px; margin:auto">
+
+                <!-- ABAS -->
+
+                <div class="archive-tabs"
+                     style="display:flex;gap:9px;margin-bottom:20px">
+
+                    <button
+                        type="button"
+                        class="active"
+                        data-camp-tab="editar">
+
+                        ✠ Escrever a crônica
+
                     </button>
 
-                    <span
-                        id="aviso"
-                        role="status"
-                        aria-live="polite"></span>
+                    <button
+                        type="button"
+                        data-camp-tab="visualizar">
+
+                        ◈ Visualizar história
+
+                    </button>
+
                 </div>
-            </form>
-        </section>
-    </main>
 
-    <script>
-        "use strict";
 
-        const formulario =
-            document.getElementById("formulario");
+                <!-- =================================
+                     ABA 1 — EDITOR DA CAMPANHA
+                     ================================= -->
 
-        const aviso =
-            document.getElementById("aviso");
+                <div class="frame archive-sheet"
+                     id="tab-editar">
 
-        const botaoSalvar =
-            document.getElementById("salvar");
+                    <div class="eyebrow">
+                        ESCRITURA DA CAMPANHA
+                    </div>
 
-        const campos = ["titulo", "subtitulo", "texto"];
+                    <h3>Crônica Principal</h3>
 
-        let editadoDuranteCarregamento = false;
+                    <p>
+                        O pergaminho será armazenado
+                        no ESP32.
+                    </p>
 
-        formulario.addEventListener("input", () => {
-            editadoDuranteCarregamento = true;
-        });
+                    <form id="formulario">
 
-        async function carregarCampanha() {
-            try {
-                const resposta = await fetch(
-                    "/campanha/dados",
-                    { cache: "no-store" }
-                );
+                        <!-- NOME DA CAMPANHA -->
 
-                if (!resposta.ok) {
-                    throw new Error(
-                        `HTTP ${resposta.status}`
-                    );
-                }
+                        <label for="titulo">
+                            Nome da crônica
+                        </label>
 
-                const dados = await resposta.json();
+                        <input
+                            id="titulo"
+                            name="titulo"
+                            maxlength="100"
+                            placeholder="Crônicas de Sangue e Cinzas"
+                            required>
 
-                if (editadoDuranteCarregamento) {
-                    return;
-                }
 
-                for (const nome of campos) {
-                    document.getElementById(nome).value =
-                        typeof dados[nome] === "string"
-                            ? dados[nome]
-                            : "";
-                }
+                        <!-- SUBTÍTULO -->
 
-            } catch (erro) {
-                aviso.textContent =
-                    "Não foi possível carregar a campanha.";
+                        <label for="subtitulo">
+                            Invocação · Subtítulo
+                        </label>
 
-                console.error(erro);
-            }
-        }
+                        <textarea
+                            id="subtitulo"
+                            name="subtitulo"
+                            maxlength="160"
+                            rows="3"
+                            style="min-height:85px"
+                            placeholder="Toda bênção possui um preço..."></textarea>
 
-        formulario.addEventListener(
-            "submit",
-            async (evento) => {
-                evento.preventDefault();
 
-                const titulo =
-                    document.getElementById("titulo")
-                        .value.trim();
+                        <!-- HISTÓRIA PRINCIPAL -->
 
-                const subtitulo =
-                    document.getElementById("subtitulo")
-                        .value.trim();
+                        <label for="texto">
+                            O pergaminho da campanha
+                        </label>
 
-                const texto =
-                    document.getElementById("texto")
-                        .value.trim();
+                        <textarea
+                            id="texto"
+                            name="texto"
+                            style="min-height:310px"
+                            placeholder="Escreva a história da campanha..."
+                            required></textarea>
 
-                const encoder = new TextEncoder();
 
-                if (!titulo || !texto) {
-                    aviso.textContent =
-                        "Preencha o título e a história.";
-                    return;
-                }
+                        <!-- BOTÃO SALVAR -->
 
-                if (
-                    encoder.encode(titulo).length > 100 ||
-                    encoder.encode(subtitulo).length > 160 ||
-                    encoder.encode(texto).length > 6000
-                ) {
-                    aviso.textContent =
-                        "Texto acima do limite permitido.";
-                    return;
-                }
+                        <div class="row">
 
-                botaoSalvar.disabled = true;
-                aviso.textContent = "Salvando...";
+                            <button
+                                id="salvar"
+                                class="btn"
+                                type="submit">
 
-                try {
-                    const dados = new URLSearchParams({
-                        titulo,
-                        subtitulo,
-                        texto
-                    });
+                                ✦ Selar crônica
 
-                    const resposta = await fetch(
-                        "/campanha/dados",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type":
-                                "application/x-www-form-urlencoded"
-                            },
-                            body: dados.toString()
-                        }
-                    );
+                            </button>
 
-                    if (!resposta.ok) {
-                        throw new Error(
-                            `HTTP ${resposta.status}`
-                        );
-                    }
+                            <span
+                                class="note"
+                                id="aviso"
+                                role="status"
+                                aria-live="polite">
+                            </span>
 
-                    aviso.textContent =
-                        "Campanha salva no ESP32!";
+                        </div>
 
-                } catch (erro) {
-                    aviso.textContent =
-                        "Erro ao salvar. Verifique a conexão.";
+                    </form>
 
-                    console.error(erro);
+                </div>
 
-                } finally {
-                    botaoSalvar.disabled = false;
-                }
+
+                <!-- =================================
+                     ABA 2 — VISUALIZAR HISTÓRIA
+                     ================================= -->
+
+                <article
+                    class="parchment"
+                    id="tab-visualizar"
+                    hidden
+                    style="min-height:400px">
+
+                    <div
+                        class="arch"
+                        aria-hidden="true">
+                    </div>
+
+                    <div class="scene-mark">
+                        PRÉVIA DO MANUSCRITO
+                    </div>
+
+                    <h3 id="vis-titulo">
+                        Crônica sem título
+                    </h3>
+
+                    <p
+                        class="subchapter"
+                        id="vis-subtitulo">
+                    </p>
+
+                    <div class="divider-orn">
+                        ❖
+                    </div>
+
+                    <div
+                        id="vis-texto"
+                        class="preview-content">
+                    </div>
+
+                    <p class="instruction">
+
+                        Prévia do texto atual.
+                        Use “Selar crônica” para
+                        salvá-lo no ESP32.
+
+                    </p>
+
+                </article>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     JAVASCRIPT DA CAMPANHA
+     ========================================== -->
+
+<script>
+
+"use strict";
+
+/* ==========================================
+   1. ELEMENTOS
+   ========================================== */
+
+const formulario =
+    document.getElementById("formulario");
+
+const aviso =
+    document.getElementById("aviso");
+
+const botaoSalvar =
+    document.getElementById("salvar");
+
+const campos = [
+    "titulo",
+    "subtitulo",
+    "texto"
+];
+
+let editadoDuranteCarregamento = false;
+
+
+/* ==========================================
+   2. DETECTAR ALTERAÇÕES
+   ========================================== */
+
+formulario.addEventListener("input", () => {
+
+    editadoDuranteCarregamento = true;
+
+});
+
+
+/* ==========================================
+   3. CARREGAR CAMPANHA DO ESP32
+   ========================================== */
+
+async function carregarCampanha() {
+
+    try {
+
+        const resposta = await fetch(
+            "/campanha/dados",
+            {
+                cache: "no-store"
             }
         );
 
-        carregarCampanha();
-    </script>
+        if (!resposta.ok) {
+
+            throw new Error(
+                `HTTP ${resposta.status}`
+            );
+
+        }
+
+        const dados = await resposta.json();
+
+        if (editadoDuranteCarregamento) {
+            return;
+        }
+
+        for (const nome of campos) {
+
+            document.getElementById(nome).value =
+                typeof dados[nome] === "string"
+                    ? dados[nome]
+                    : "";
+
+        }
+
+    } catch (erro) {
+
+        aviso.textContent =
+            "Não foi possível carregar a campanha.";
+
+        console.error(erro);
+
+    }
+
+}
+
+
+/* ==========================================
+   4. SALVAR CAMPANHA NO ESP32
+   ========================================== */
+
+formulario.addEventListener(
+    "submit",
+
+    async (evento) => {
+
+        evento.preventDefault();
+
+        const titulo =
+            document.getElementById("titulo")
+                .value.trim();
+
+        const subtitulo =
+            document.getElementById("subtitulo")
+                .value.trim();
+
+        const texto =
+            document.getElementById("texto")
+                .value.trim();
+
+        const encoder = new TextEncoder();
+
+        /* VALIDAÇÃO */
+
+        if (!titulo || !texto) {
+
+            aviso.textContent =
+                "Preencha o título e a história.";
+
+            return;
+
+        }
+
+        if (
+            encoder.encode(titulo).length > 100 ||
+            encoder.encode(subtitulo).length > 160 ||
+            encoder.encode(texto).length > 6000
+        ) {
+
+            aviso.textContent =
+                "Texto acima do limite permitido.";
+
+            return;
+
+        }
+
+        botaoSalvar.disabled = true;
+
+        aviso.textContent = "Salvando...";
+
+        try {
+
+            const dados = new URLSearchParams({
+                titulo,
+                subtitulo,
+                texto
+            });
+
+            const resposta = await fetch(
+                "/campanha/dados",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body: dados.toString()
+                }
+            );
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    `HTTP ${resposta.status}`
+                );
+
+            }
+
+            aviso.textContent =
+                "Campanha salva no ESP32!";
+
+        } catch (erro) {
+
+            aviso.textContent =
+                "Erro ao salvar. Verifique a conexão.";
+
+            console.error(erro);
+
+        } finally {
+
+            botaoSalvar.disabled = false;
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   5. ABAS DA CAMPANHA
+   ========================================== */
+
+const abas =
+    document.querySelectorAll("[data-camp-tab]");
+
+
+function mudarAba(tipo) {
+
+    /* ATUALIZAR BOTÕES */
+
+    abas.forEach(botao => {
+
+        botao.classList.toggle(
+            "active",
+            botao.dataset.campTab === tipo
+        );
+
+    });
+
+
+    /* MOSTRAR ABA SELECIONADA */
+
+    document.getElementById("tab-editar").hidden =
+        tipo !== "editar";
+
+    document.getElementById("tab-visualizar").hidden =
+        tipo !== "visualizar";
+
+
+    /* ATUALIZAR PRÉVIA */
+
+    if (tipo === "visualizar") {
+
+        document.getElementById("vis-titulo")
+            .textContent =
+
+            document.getElementById("titulo")
+                .value.trim() ||
+
+            "Crônica sem título";
+
+
+        document.getElementById("vis-subtitulo")
+            .textContent =
+
+            document.getElementById("subtitulo")
+                .value.trim();
+
+
+        document.getElementById("vis-texto")
+            .textContent =
+
+            document.getElementById("texto")
+                .value.trim() ||
+
+            "Nenhuma narrativa escrita.";
+
+    }
+
+}
+
+
+/* ==========================================
+   6. EVENTOS DAS ABAS
+   ========================================== */
+
+abas.forEach(botao => {
+
+    botao.addEventListener("click", () => {
+
+        mudarAba(
+            botao.dataset.campTab
+        );
+
+    });
+
+});
+
+
+/* ==========================================
+   7. INICIALIZAÇÃO
+   ========================================== */
+
+carregarCampanha();
+
+</script>
+
 </body>
 </html>

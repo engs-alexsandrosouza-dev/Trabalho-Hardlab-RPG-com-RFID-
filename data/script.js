@@ -231,6 +231,16 @@ function atualizarPersonagens(dados) {
         vidaMaxima
     );
 
+    definirTexto(
+        document.getElementById("detail-v1"),
+        elementos.vidaP1?.textContent
+    );
+
+    definirTexto(
+        document.getElementById("detail-v2"),
+        elementos.vidaP2?.textContent
+    );
+
     const selecionado = inteiroSeguro(
         dados.personagemSelecionado,
         -1
@@ -241,12 +251,12 @@ function atualizarPersonagens(dados) {
     //  1 = personagem 2
 
     elementos.cartaoP1?.classList.toggle(
-        "selecionado",
+        "active",
         selecionado === 0
     );
 
     elementos.cartaoP2?.classList.toggle(
-        "selecionado",
+        "active",
         selecionado === 1
     );
 
@@ -290,6 +300,11 @@ function atualizarInimigo(dados) {
             dados.nomeInimigo
         );
     }
+
+    definirTexto(
+        document.getElementById("detail-ve"),
+        elementos.vidaInimigo?.textContent
+    );
 
     const derrotado = vida === 0;
 
@@ -559,142 +574,36 @@ function iniciarJogo() {
 }
 
 /* =====================================================
-   13. MENU LATERAL E HISTÓRIAS
+   13. NAVEGAÇÃO GÓTICA, CÓDICES E HISTÓRIAS
    ===================================================== */
 
 function iniciarMenuHistorias() {
-    const botaoMenu =
-        document.getElementById("botao-menu");
 
-    const fecharMenu =
-        document.getElementById("fechar-menu");
+    const $ = id => document.getElementById(id);
 
-    const menu =
-        document.getElementById("menu-historias");
+    const views = {
+        jornada: "ATO I — O DESPERTAR",
+        arquivos: "BIBLIOTECA DOS PERGAMINHOS",
+        visualizar: "A HISTÓRIA SELADA",
+        personagens: "OS ESCOLHIDOS"
+    };
 
-    const fundoMenu =
-        document.getElementById("fundo-menu");
-
-    const mensagem =
-        document.getElementById("mensagem-salvamento");
-
-    if (
-        !botaoMenu ||
-        !fecharMenu ||
-        !menu ||
-        !fundoMenu
-    ) {
-        console.warn("Menu lateral não encontrado.");
-        return;
-    }
-
-    let focoAnterior = null;
-
-    /* ---------------------------------------
-       ABRIR E FECHAR MENU
-       --------------------------------------- */
-
-    function abrirMenu() {
-        focoAnterior = document.activeElement;
-
-        menu.hidden = false;
-        fundoMenu.hidden = false;
-
-        document.body.classList.add("menu-aberto");
-
-        botaoMenu.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-        fecharMenu.focus();
-    }
-
-    function ocultarMenu() {
-        menu.hidden = true;
-        fundoMenu.hidden = true;
-
-        document.body.classList.remove("menu-aberto");
-
-        botaoMenu.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        focoAnterior?.focus();
-    }
-
-    botaoMenu.addEventListener("click", abrirMenu);
-    fecharMenu.addEventListener("click", ocultarMenu);
-    fundoMenu.addEventListener("click", ocultarMenu);
-
-    document.addEventListener("keydown", evento => {
-        if (menu.hidden) return;
-
-        if (evento.key === "Escape") {
-            ocultarMenu();
-            return;
-        }
-
-        if (evento.key !== "Tab") return;
-
-        const controles = Array.from(
-            menu.querySelectorAll(
-                'button:not([disabled]), textarea:not([disabled])'
-            )
-        );
-
-        if (controles.length === 0) return;
-
-        const primeiro = controles[0];
-        const ultimo = controles[controles.length - 1];
-
-        if (
-            evento.shiftKey &&
-            document.activeElement === primeiro
-        ) {
-            evento.preventDefault();
-            ultimo.focus();
-        } else if (
-            !evento.shiftKey &&
-            document.activeElement === ultimo
-        ) {
-            evento.preventDefault();
-            primeiro.focus();
-        }
-    });
-
-    /* ---------------------------------------
-       EDITORES DE HISTÓRIAS
-       --------------------------------------- */
-
-    const historias = {
-        rpg: {
-            editor: document.getElementById(
-                "editor-historia-rpg"
-            ),
-            visualizacao: document.getElementById(
-                "visualizacao-rpg"
-            )
-        },
-
-        p1: {
-            editor: document.getElementById(
-                "editor-historia-p1"
-            ),
-            visualizacao: document.getElementById(
-                "visualizacao-p1"
-            )
-        },
-
-        p2: {
-            editor: document.getElementById(
-                "editor-historia-p2"
-            ),
-            visualizacao: document.getElementById(
-                "visualizacao-p2"
-            )
-        }
+    const docs = {
+        rpg: [
+            "TOMO I · O REINO",
+            "Memórias de Eliria",
+            "Inscreva a história e as lendas de Eliria."
+        ],
+        p1: [
+            "TOMO II · O PRIMEIRO ESCOLHIDO",
+            "O Juramento de Ferro",
+            "Registre a origem do primeiro aventureiro."
+        ],
+        p2: [
+            "TOMO III · O SEGUNDO ESCOLHIDO",
+            "O Pacto Velado",
+            "Registre a origem do segundo aventureiro."
+        ]
     };
 
     const revisoes = {
@@ -704,115 +613,123 @@ function iniciarMenuHistorias() {
     };
 
     const salvando = new Set();
-    const codificador = new TextEncoder();
+    const encoder = new TextEncoder();
 
-    function exibirMensagem(texto) {
-        definirTexto(mensagem, texto);
-    }
+    let atual = "rpg";
 
-    function atualizarVisualizacao(historia, texto) {
-        if (!historia?.visualizacao) return;
-
-        definirTexto(
-            historia.visualizacao,
-            texto.trim() || "Nenhuma história registrada."
-        );
-    }
-
-    for (const [tipo, historia] of Object.entries(historias)) {
-        historia.editor?.addEventListener("input", () => {
-            revisoes[tipo]++;
-        });
+    function mensagem(texto) {
+        definirTexto($("mensagem-salvamento"), texto);
     }
 
     /* ---------------------------------------
-       SALVAR HISTÓRIA NO ESP32
+       NAVEGAÇÃO ENTRE ABAS
        --------------------------------------- */
 
-    async function salvarHistoria(tipo) {
-        const historia = historias[tipo];
+    function mostrar(nome) {
 
-        if (
-            !historia?.editor ||
-            !historia.visualizacao ||
-            salvando.has(tipo)
-        ) {
-            return;
-        }
+        document.querySelectorAll("[data-view]")
+            .forEach(botao => {
+                botao.classList.toggle(
+                    "active",
+                    botao.dataset.view === nome
+                );
+            });
 
-        const texto = historia.editor.value;
+        document.querySelectorAll(".section")
+            .forEach(secao => {
+                secao.classList.toggle(
+                    "active",
+                    secao.id === nome
+                );
+            });
 
-        const tamanho = codificador.encode(texto).length;
-
-        if (tamanho > CONFIG.limiteHistoriaBytes) {
-            exibirMensagem(
-                "A história ultrapassa o limite de 3.500 bytes."
-            );
-            return;
-        }
-
-        const botao = document.querySelector(
-            `.botao-salvar[data-historia="${tipo}"]`
+        definirTexto(
+            $("top-label"),
+            views[nome] || "ELIRIA"
         );
 
-        salvando.add(tipo);
-
-        if (botao) {
-            botao.disabled = true;
+        if (nome === "visualizar") {
+            carregarVisualizacao();
         }
 
-        const revisaoAoSalvar = revisoes[tipo];
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
 
-        try {
-            const dados = new URLSearchParams({
-                tipo: tipo,
-                texto: texto
+    document.querySelectorAll("[data-view]")
+        .forEach(botao => {
+            botao.addEventListener("click", () => {
+                mostrar(botao.dataset.view);
+            });
+        });
+
+    /* ---------------------------------------
+       SELEÇÃO DOS PERGAMINHOS
+       --------------------------------------- */
+
+    document.querySelectorAll("[data-doc]")
+        .forEach(botao => {
+
+            botao.addEventListener("click", () => {
+
+                atual = botao.dataset.doc;
+
+                document.querySelectorAll("[data-doc]")
+                    .forEach(item => {
+                        item.classList.toggle(
+                            "active",
+                            item === botao
+                        );
+                    });
+
+                document.querySelectorAll(".archive-panel")
+                    .forEach(painel => {
+                        painel.hidden =
+                            painel.id !== `panel-${atual}`;
+                    });
+
+                const [label, title, desc] = docs[atual];
+
+                definirTexto($("doc-label"), label);
+                definirTexto($("doc-title"), title);
+                definirTexto($("doc-desc"), desc);
+
             });
 
-            const resposta = await fetch("/historias", {
-                method: "POST",
-                headers: {
-                    "Content-Type":
-                        "application/x-www-form-urlencoded"
-                },
-                body: dados.toString()
+        });
+
+    /* ---------------------------------------
+       REGISTRO DE EDIÇÕES
+       --------------------------------------- */
+
+    for (const tipo of Object.keys(revisoes)) {
+
+        $("editor-historia-" + tipo)
+            ?.addEventListener("input", () => {
+                revisoes[tipo]++;
             });
 
-            if (!resposta.ok) {
-                throw new Error(
-                    `Erro HTTP ${resposta.status}`
-                );
-            }
+    }
 
-            atualizarVisualizacao(historia, texto);
+    /* ---------------------------------------
+       LEITURA DE JSON
+       --------------------------------------- */
 
-            if (revisoes[tipo] !== revisaoAoSalvar) {
-                exibirMensagem(
-                    "História salva, mas há alterações novas ainda não salvas."
-                );
-            } else {
-                exibirMensagem(
-                    "✦ História salva no ESP32!"
-                );
-            }
+    async function lerJSON(url) {
 
-        } catch (erro) {
-            console.error(
-                "Erro ao salvar história:",
-                erro
+        const resposta = await fetch(url, {
+            cache: "no-store"
+        });
+
+        if (!resposta.ok) {
+            throw new Error(
+                "HTTP " + resposta.status
             );
-
-            exibirMensagem(
-                "Não foi possível salvar a história no ESP32."
-            );
-
-        } finally {
-            salvando.delete(tipo);
-
-            if (botao) {
-                botao.disabled = false;
-            }
         }
+
+        return await resposta.json();
     }
 
     /* ---------------------------------------
@@ -820,95 +737,256 @@ function iniciarMenuHistorias() {
        --------------------------------------- */
 
     async function carregarHistorias() {
-        const revisoesIniciais = { ...revisoes };
+
+        const iniciais = { ...revisoes };
 
         try {
-            const resposta = await fetch("/historias", {
-                method: "GET",
-                cache: "no-store"
-            });
 
-            if (!resposta.ok) {
-                throw new Error(
-                    `Erro HTTP ${resposta.status}`
-                );
-            }
+            const dados = await lerJSON("/historias");
 
-            const dados = await resposta.json();
+            for (const tipo of Object.keys(revisoes)) {
 
-            if (
-                !dados ||
-                typeof dados !== "object" ||
-                Array.isArray(dados)
-            ) {
-                throw new Error("Resposta inválida.");
-            }
-
-            for (
-                const [tipo, historia]
-                of Object.entries(historias)
-            ) {
-                if (
-                    !historia.editor ||
-                    !historia.visualizacao
-                ) {
-                    continue;
-                }
-
-                const texto =
+                const valor =
                     typeof dados[tipo] === "string"
                         ? dados[tipo]
                         : "";
 
-                // Evita perder o texto digitado enquanto
-                // a requisição estava em andamento.
                 if (
-                    revisoes[tipo] !== revisoesIniciais[tipo] ||
-                    salvando.has(tipo)
+                    iniciais[tipo] === revisoes[tipo] &&
+                    !salvando.has(tipo)
                 ) {
-                    continue;
+
+                    $("editor-historia-" + tipo).value =
+                        valor;
+
+                    definirTexto(
+                        $("visualizacao-" + tipo),
+                        valor || "Nenhuma história registrada."
+                    );
                 }
 
-                historia.editor.value = texto;
-
-                atualizarVisualizacao(
-                    historia,
-                    texto
+                definirTexto(
+                    $("preview-" + tipo),
+                    valor
                 );
+
+                if (tipo !== "rpg") {
+
+                    definirTexto(
+                        $("detalhe-" + tipo),
+                        valor ||
+                        "A história ainda não foi escrita."
+                    );
+                }
             }
 
         } catch (erro) {
-            console.error(
-                "Erro ao carregar histórias:",
-                erro
-            );
 
-            exibirMensagem(
+            mensagem(
                 "Não foi possível carregar as histórias do ESP32."
             );
         }
     }
 
     /* ---------------------------------------
-       BOTÕES DE SALVAR
+       SALVAR HISTÓRIA NO ESP32
+       --------------------------------------- */
+
+    async function salvarHistoria(tipo) {
+
+        if (salvando.has(tipo)) return;
+
+        const editor =
+            $("editor-historia-" + tipo);
+
+        const botao = document.querySelector(
+            `[data-historia="${tipo}"]`
+        );
+
+        if (!editor || !botao) return;
+
+        const texto = editor.value;
+        const rev = revisoes[tipo];
+
+        if (
+            encoder.encode(texto).length >
+            CONFIG.limiteHistoriaBytes
+        ) {
+
+            mensagem(
+                "A história excede 3.500 bytes."
+            );
+
+            return;
+        }
+
+        salvando.add(tipo);
+        botao.disabled = true;
+
+        try {
+
+            const resposta = await fetch(
+                "/historias",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded"
+                    },
+
+                    body: new URLSearchParams({
+                        tipo,
+                        texto
+                    }).toString()
+                }
+            );
+
+            if (!resposta.ok) {
+                throw new Error(
+                    "HTTP " + resposta.status
+                );
+            }
+
+            definirTexto(
+                $("visualizacao-" + tipo),
+                texto || "Nenhuma história registrada."
+            );
+
+            definirTexto(
+                $("preview-" + tipo),
+                texto
+            );
+
+            if (tipo !== "rpg") {
+
+                definirTexto(
+                    $("detalhe-" + tipo),
+                    texto ||
+                    "A história ainda não foi escrita."
+                );
+            }
+
+            mensagem(
+                rev === revisoes[tipo]
+                    ? "✦ Pergaminho selado no ESP32!"
+                    : "Pergaminho salvo; há novas edições pendentes."
+            );
+
+        } catch (erro) {
+
+            mensagem(
+                "Falha ao salvar a história no ESP32."
+            );
+
+        } finally {
+
+            botao.disabled = false;
+            salvando.delete(tipo);
+        }
+    }
+
+    /* ---------------------------------------
+       BOTÕES PARA SALVAR HISTÓRIAS
        --------------------------------------- */
 
     document.querySelectorAll(".botao-salvar")
         .forEach(botao => {
+
             botao.addEventListener("click", () => {
-                const tipo = botao.dataset.historia;
-                salvarHistoria(tipo);
+
+                salvarHistoria(
+                    botao.dataset.historia
+                );
+
             });
         });
 
+    /* ---------------------------------------
+       ABA VISUALIZAR HISTÓRIA
+       --------------------------------------- */
+
+    async function carregarVisualizacao() {
+
+        try {
+
+            const campanha = await lerJSON(
+                "/campanha/dados"
+            );
+
+            definirTexto(
+                $("preview-campaign-title"),
+                campanha.titulo ||
+                "Nenhuma campanha registrada"
+            );
+
+            definirTexto(
+                $("preview-campaign-sub"),
+                campanha.subtitulo || ""
+            );
+
+            definirTexto(
+                $("preview-campaign-story"),
+                campanha.texto || ""
+            );
+
+            definirTexto(
+                $("preview-message"),
+                ""
+            );
+
+        } catch (erro) {
+
+            definirTexto(
+                $("preview-message"),
+                "Não foi possível carregar a campanha do ESP32."
+            );
+        }
+
+        try {
+
+            const dados = await lerJSON(
+                "/historias"
+            );
+
+            for (const tipo of ["rpg", "p1", "p2"]) {
+
+                definirTexto(
+                    $("preview-" + tipo),
+                    typeof dados[tipo] === "string"
+                        ? dados[tipo]
+                        : ""
+                );
+            }
+
+        } catch (erro) {
+
+            definirTexto(
+                $("preview-message"),
+                "Não foi possível carregar todos os textos do ESP32."
+            );
+        }
+    }
+
+    /* ---------------------------------------
+       INICIALIZAÇÃO DOS ARQUIVOS
+       --------------------------------------- */
+
     carregarHistorias();
+
+    if (location.hash === "#visualizar") {
+        mostrar("visualizar");
+    }
 }
 
 /* =====================================================
    14. INICIALIZAÇÃO GERAL
    ===================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
-    iniciarJogo();
-    iniciarMenuHistorias();
-});
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+        iniciarJogo();
+        iniciarMenuHistorias();
+    }
+);
